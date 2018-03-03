@@ -128,3 +128,35 @@ sudo apt-get update
 sudo apt-get install ntp
 ```
 
+## Enable email sending
+
+TODO...
+
+## Enable unattended updates
+
+You want to get security updates automatically for installed packages.
+Debian can be configured to update automatically [click](https://wiki.debian.org/UnattendedUpgrades).
+
+```bash
+sudo apt-get install unattended-upgrades apt-listchanges
+
+sudo vim /etc/apt/apt.conf.d/50unattended-upgrades
+```
+
+The command above creates the file `/etc/apt/apt.conf.d/50unattended-upgrades`, which contains the configuration for unattended upgrades.
+Uncomment the line `Unattended-Upgrade::Mail "root";` to get emails about updates.
+Next, you must enable upgrading with:
+
+```bash
+sudo dpkg-reconfigure -plow unattended-upgrades
+
+cat /etc/apt/apt.conf.d/20auto-upgrades
+```
+
+The command will create a file with the following content:
+```
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+```
+
+You can check the logs with `cat /var/log/unattended-upgrades/unattended-upgrades.log`.
